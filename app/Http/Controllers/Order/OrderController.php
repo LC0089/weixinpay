@@ -75,7 +75,7 @@ class OrderController extends Controller
         }
         die(json_encode($response));
     }
-    public function success($order_id){
+    public function success(){
         $order_id = $_GET['order_id'];
         echo 'OID: '.$order_id . "支付成功";
     }
