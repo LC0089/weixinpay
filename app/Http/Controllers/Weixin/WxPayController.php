@@ -163,17 +163,23 @@ class WxPayController extends Controller
     public function notify()
     {
         $data = file_get_contents("php://input");
+//        print_r($data);
+//        echo 111;die;
         //记录日志
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
+//        print_r($log_str);exit;
         file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
         $xml = simplexml_load_string($data);
+//        print_r($xml);
         if($xml->result_code=='SUCCESS' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
             //验证签名
             $sign = true;
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
                 $pay_time = strtotime($xml->time_end);
+
                 OrderModel::where(['order_number'=>$xml->out_trade_no])->update(['pay_status'=>0,'pay_time'=>$pay_time]);
+
             }else{
                 //TODO 验签失败
                 echo '验签失败，IP: '.$_SERVER['REMOTE_ADDR'];
@@ -183,4 +189,5 @@ class WxPayController extends Controller
         $response = '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
         echo $response;
     }
+
 }

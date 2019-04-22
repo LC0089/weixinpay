@@ -113,19 +113,21 @@
 <script type="text/javascript">
     new QRCode(document.getElementById("qrcode"), "{{$code_url}}");
 
-    setInterval(function(){
-        $.ajax({
-            url : '/paystatus?order_id=' + "{{$order_id}}",
-            type: 'get',
-            dataType:'json',
-            success: function(d){
-                if(d.status==0){
-                    alert("支付成功");
-                    location.href = "/success?order_id={{$order_id}}";
+        //ajax轮询，检查订单支付状态
+        setInterval(function(){
+            $.ajax({
+                url : '/paystatus?order_id=' + "{{$order_id}}",
+                type: 'get',
+                dataType:'json',
+                success: function(d){
+                    if(d.pay_status==0){
+                        alert("支付成功");
+                        location.href = "/success?order_id={{$order_id}}";
+                    }
                 }
-            }
-        });
-    },2000)
+            });
+        },2000)
+
 </script>
 
 </body>

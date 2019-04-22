@@ -53,13 +53,17 @@ class OrderController extends Controller
         return view('order.lists',['arr'=>$arr]);
     }
 
-    public function paystatus(){
-
+    /**
+     * 查询订单支付状态
+     */
+    public function paystatus()
+    {
         $order_id = intval($_GET['order_id']);
         $info = OrderModel::where(['order_id'=>$order_id])->first();
+//        print_r($info);die;
         $response = [];
         if($info){
-            if($info->pay_status>0){      //已支付
+            if($info->pay_time>0){      //已支付
                 $response = [
                     'pay_status'    => 0,       // 0 已支付
                     'msg'       => 'ok'
