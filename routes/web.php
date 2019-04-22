@@ -35,7 +35,8 @@ Route::get('success', 'Order\OrderController@success');
 
 //微信支付
 Route::get('test/{order_id?}','Weixin\WxPayController@test');           //支付
-Route::post('notify','Weixin\WxPayController@notify');       //微信支付回调地址
+Route::any('notify','Weixin\WxPayController@notify');       //微信支付回调地址
+
 
 Auth::routes();
 

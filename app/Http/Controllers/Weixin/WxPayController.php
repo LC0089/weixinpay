@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class WxPayController extends Controller
 {
     public $weixin_unifiedorder_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder'; //统一下单接口
-    public $notify_url  = 'http://1809lvmingjin.comcto.com/weixin/pay/notify'; //支付回调
+    public $notify_url  = 'http://weixin.gege12.vip/weixin/notify'; //支付回调
 
     /*
      * 微信支付测试
@@ -40,9 +40,11 @@ class WxPayController extends Controller
         $this->values = $order_info;
         $this->SetSign();
         $xml = $this->ToXml();      //将数组转换为XML
+//        print_r($xml);die;
         $rs = $this->postXmlCurl($xml, $this->weixin_unifiedorder_url, $useCert = false, $second = 30);
 //        print_r($rs);exit;
         $data =  simplexml_load_string($rs);
+        print_r($data);die;
 //        var_dump($data);echo '<hr>';
 //        echo 'return_code: '.$data->return_code;echo '<br>';
 //		echo 'return_msg: '.$data->return_msg;echo '<br>';
@@ -134,6 +136,7 @@ class WxPayController extends Controller
         $string = $this->ToUrlParams();
         //签名步骤二：在string后加入KEY
         $string = $string . "&key=".env('WEIXIN_MCH_KEY');
+//        print_r($string);die;
         //签名步骤三：MD5加密
         $string = md5($string);
         //签名步骤四：所有字符转为大写
