@@ -12,15 +12,14 @@ use Illuminate\Support\Facades\DB;
 class WxPayController extends Controller
 {
     public $weixin_unifiedorder_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder'; //统一下单接口
-    public $notify_url  = 'http://weixin.gege12.vip/weixin/notify'; //支付回调
+    public $notify_url  = 'http://weixin.gege12.vip/notify'; //支付回调
 
     /*
      * 微信支付测试
      * */
     public function test($order_id){
         $order_number = OrderModel::where(['order_id'=>$order_id])->first();
-        $order_number = $order_number->order_number;
-//        print_r($order_number);die;
+        $order_id = $order_number->order_number;
 
         $total_fee = 1;         //用户要支付的总金额
 
@@ -30,7 +29,7 @@ class WxPayController extends Controller
             'nonce_str'     => Str::random(16),             // 随机字符串
             'sign_type'     => 'MD5',
             'body'          => '测试订单-'.mt_rand(1111,9999) . Str::random(6),
-            'out_trade_no'  => $order_number,                       //本地订单号
+            'out_trade_no'  => $order_id,                       //本地订单号
             'total_fee'     => $total_fee,
             'spbill_create_ip'  => $_SERVER['REMOTE_ADDR'],     //客户端IP
             'notify_url'    => $this->notify_url,        //通知回调地址
@@ -42,9 +41,9 @@ class WxPayController extends Controller
         $xml = $this->ToXml();      //将数组转换为XML
 //        print_r($xml);die;
         $rs = $this->postXmlCurl($xml, $this->weixin_unifiedorder_url, $useCert = false, $second = 30);
-//        print_r($rs);exit;
+//        var_dump($rs);exit;
         $data =  simplexml_load_string($rs);
-        print_r($data);die;
+//        var_dump($data);die;
 //        var_dump($data);echo '<hr>';
 //        echo 'return_code: '.$data->return_code;echo '<br>';
 //		echo 'return_msg: '.$data->return_msg;echo '<br>';
@@ -61,10 +60,10 @@ class WxPayController extends Controller
         //将 code_url 返回给前端，前端生成 支付二维码
         $data = [
             'code_url'  => $data->code_url,
-            'order_id' => $order_id
         ];
         $where = [
             'pay_status'=>1,
+            'order_number'=>$order_id
         ];
         $arr = DB::table('order')->where($where)->get();
         return view('weixin.text',$data,['arr'=>$arr]);

@@ -71,7 +71,8 @@ class OrderController extends Controller
         }
         die(json_encode($response));
     }
-    public function success(){
-
+    public function success($order_id){
+        $order = OrderModel::where(['order_id'=>$order_id])->first();
+        header('Refresh:3;url=/success');
     }
 }
