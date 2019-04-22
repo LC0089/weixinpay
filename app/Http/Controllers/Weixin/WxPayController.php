@@ -18,33 +18,32 @@ class WxPayController extends Controller
      * 微信支付测试
      * */
     public function test($order_id){
-        $order_number = OrderModel::where(['order_id'=>$order_id])->first();
-        $order_id = $order_number->order_number;
-
         $total_fee = 1;         //用户要支付的总金额
-
+        $order = OrderModel::where('order_id',$order_id)->first();
+//        print_r($order_id);
+//        $order_id = time().mt_rand(11111,99999);            //测试订单号 随机生成
         $order_info = [
-            'appid'         =>  env('WEIXIN_APPID_0'),      //微信支付绑定的服务号的APPID
-            'mch_id'        =>  env('WEIXIN_MCH_ID'),       // 商户ID
-            'nonce_str'     => Str::random(16),             // 随机字符串
-            'sign_type'     => 'MD5',
-            'body'          => '测试订单-'.mt_rand(1111,9999) . Str::random(6),
-            'out_trade_no'  => $order_id,                       //本地订单号
-            'total_fee'     => $total_fee,
+            'appid'             =>  env('WEIXIN_APPID_0'),      //微信支付绑定的服务号的APPID
+            'mch_id'            =>  env('WEIXIN_MCH_ID'),       // 商户ID
+            'nonce_str'         => Str::random(16),             // 随机字符串
+            'sign_type'         => 'MD5',
+            'body'              => '测试订单-'.mt_rand(1111,9999) . Str::random(6),
+            'out_trade_no'      => $order['order_number'],                       //本地订单号
+            'total_fee'         => $total_fee,
             'spbill_create_ip'  => $_SERVER['REMOTE_ADDR'],     //客户端IP
-            'notify_url'    => $this->notify_url,        //通知回调地址
-            'trade_type'    => 'NATIVE'                         // 交易类型
+            'notify_url'        => $this->notify_url,        //通知回调地址
+            'trade_type'        => 'NATIVE'                         // 交易类型
         ];
+//
         $this->values = [];
         $this->values = $order_info;
         $this->SetSign();
         $xml = $this->ToXml();      //将数组转换为XML
-//        print_r($xml);die;
+//        print_r($xml);
         $rs = $this->postXmlCurl($xml, $this->weixin_unifiedorder_url, $useCert = false, $second = 30);
-//        var_dump($rs);exit;
+//        print_r($rs);exit;
         $data =  simplexml_load_string($rs);
-//        var_dump($data);die;
-//        var_dump($data);echo '<hr>';
+//        print_r($data);echo '<hr>';
 //        echo 'return_code: '.$data->return_code;echo '<br>';
 //		echo 'return_msg: '.$data->return_msg;echo '<br>';
 //		echo 'appid: '.$data->appid;echo '<br>';
@@ -55,15 +54,19 @@ class WxPayController extends Controller
 //		echo 'prepay_id: '.$data->prepay_id;echo '<br>';
 //		echo 'trade_type: '.$data->trade_type;echo '<br>';
 //        echo 'code_url: '.$data->code_url;echo '<br>';
+//                echo '<hr>';
+//        echo 'err_code: '.$data->err_code;echo '<br>';
+//        echo 'err_code_des'.$data->err_code_des;echo '</br>';
 //        die;
-        //echo '<pre>';print_r($data);echo '</pre>';
+//        echo '<pre>';print_r($data);echo '</pre>';
         //将 code_url 返回给前端，前端生成 支付二维码
         $data = [
             'code_url'  => $data->code_url,
+            'order_id'  => $order_id
         ];
+//        print_r($data['order_id']);
         $where = [
             'pay_status'=>1,
-            'order_number'=>$order_id
         ];
         $arr = DB::table('order')->where($where)->get();
         return view('weixin.text',$data,['arr'=>$arr]);
