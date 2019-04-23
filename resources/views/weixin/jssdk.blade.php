@@ -10,9 +10,9 @@
 </head>
 <body>
 <button id="btn1">选择照片</button>
-<img src="" alt="" id="img1">
-<img src="" alt="" id="img2">
-<img src="" alt="" id="img3">
+<img src="" alt="" id="img1" width="300">
+<img src="" alt="" id="img2" width="300">
+<img src="" alt="" id="img3" width="300">
 <script src="js/jquery/jquery-1.12.4.min.js"></script>
 <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js "></script>
 <script>
