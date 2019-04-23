@@ -16,6 +16,7 @@ class JssdkController extends Controller
         $current_cul = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         $string1 = "jsapi_ticket=$jsapi_ticket&noncestr=$nonceStr&timestamp=$timestamp&url=$current_cul";
+//        print_r($string1);die;
         $sign = sha1($string1);
 
         $js_config = [
