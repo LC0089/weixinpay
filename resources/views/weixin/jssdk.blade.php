@@ -52,8 +52,8 @@
                     $.ajax({
                         url : 'getImg?img='+img,
                         type: 'get',
-                        success:function(msg){
-                            console.log(msg);
+                        success:function(d){
+                            console.log(d);
                         }
                     });
                     console.log(img);
