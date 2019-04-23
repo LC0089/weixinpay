@@ -8,32 +8,25 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>商品展示</h1>
-    <hr/><hr/>
+<h1>点击量展示</h1>
+<hr/><hr/>
 <table border=1 >
     <tr>
         <td>ID</td>
         <td>商品名称</td>
         <td>商品价格</td>
         <td>商品数量</td>
-        <td>操作</td>
+        <td>商品点击量</td>
     </tr>
     @foreach ($arr as $v)
         <tr>
             <td>{{ $v->goods_id }}</td>
             <td>{{ $v->goods_name }}</td>
             <td>{{ $v->goods_selfprice }}</td>
-            <td>{{ $v->goods_num }}</td>
-            <td>
-                [<a href="add/{{ $v->goods_id }}" class="del">加入购物车</a>]
-                [<a href="goods_detail/{{ $v->goods_id }}" class="xiang">详情</a>]
-            </td>
-
+            <td>{{ $v->goods_selfprice }}</td>
+            <td>{{ $v->look_num }}</td>
         </tr>
     @endforeach
 </table>
-    <a href="/lis">查看点击量</a>
-    <a href="/history">查看历史</a>
 </body>
 </html>
-

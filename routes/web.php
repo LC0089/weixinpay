@@ -26,6 +26,11 @@ Route::get('/', function () {
 //项目
 Route::get('index', 'Index\IndexController@index');
 Route::any('add/{goods_id?}', 'Index\IndexController@add');
+Route::any('goods_detail/{goods_id?}', 'Index\IndexController@goods_detail');
+Route::any('lis', 'Index\IndexController@lis');
+Route::any('history', 'Index\IndexController@history');
+
+
 Route::get('cart', 'Cart\CartController@cart');
 
 Route::get('create', 'Order\OrderController@create');
@@ -36,7 +41,7 @@ Route::get('success', 'Order\OrderController@success');
 //微信支付
 Route::get('test/{order_id?}','Weixin\WxPayController@test');           //支付
 Route::any('notify','Weixin\WxPayController@notify');       //微信支付回调地址
-
+Route::any('jssdk','Weixin\JssdkController@jssdk');
 
 Auth::routes();
 
