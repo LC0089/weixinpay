@@ -34,7 +34,7 @@ class JssdkController extends Controller
     }
 
     public function getImg(){
-//        print_r($_GET);
+        print_r($_GET);
         $img = $_GET;
         $file_name = rtrim(substr("QAZWSXEDCRFVTGBYHNUJMIKMOLqwertyuiopasdfghjklzxcvbnmP", -10), '"').".jpg";//取文件名后10位
         $img_name =  substr(md5(time() . mt_rand()), 10, 8) . '_' . $file_name;//最后的文件名;
