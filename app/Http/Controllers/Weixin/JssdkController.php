@@ -30,7 +30,11 @@ class JssdkController extends Controller
             'config'=>$js_config
         ];
 //        print_r($data);die;
-        return view('weixin.jssdk',$data);
+        $img_url = [
+            'url'=>$current_cul
+        ];
+//        print_r($img_url);die;
+        return view('weixin.jssdk',$data,$img_url);
     }
 
     public function getImg(){

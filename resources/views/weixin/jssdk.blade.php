@@ -10,6 +10,7 @@
 </head>
 <body>
 <button id="btn1">选择照片</button>
+<button id="btn2">分享给QQ</button>
 <img src="" alt="" id="img0" width="300">
 <img src="" alt="" id="img1" width="300">
 <img src="" alt="" id="img2" width="300">
@@ -63,9 +64,36 @@
 
 
     })
-//    wx.error(function(res){
-//
-//    });
+    wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+        $('#btn2').click(function() {
+            wx.updateAppMessageShareData({
+                title: '秀儿', // 分享标题
+                desc: '猜一猜', // 分享描述
+                link: "{{$url}}}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: '2', // 分享图标
+                success: function (msg) {
+                    var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                    var img = "";
+                    $.each(localIds,function(i,v){
+                        img += v+',';
+                        var imgs = "#img"+i;
+                        $(imgs).attr('src',v);
+
+                        //上传图片
+                        wx.uploadImage({
+                            localId: v, // 需要上传的图片的本地ID，由chooseImage接口获得
+                            isShowProgressTips: 1, // 默认为1，显示进度提示
+                            success: function (res1) {
+                                var serverId = res1.serverId; // 返回图片的服务器端ID
+//                                alert('serverID:'+serverId)
+                                console.log(res1);
+                            }
+                        });
+                    });
+                }
+            })
+        })
+    });
 </script>
 
 </body>
