@@ -18,7 +18,7 @@ class JssdkController extends Controller
         $string1 = "jsapi_ticket=$jsapi_ticket&noncestr=$nonceStr&timestamp=$timestamp&url=$current_cul";
 //        print_r($string1);die;
         $sign = sha1($string1);
-
+//        dump($sign);die;
         $js_config = [
             'appId'=>env('WX_APPID'), //公众号IP
             'timestamp'=>$timestamp,
