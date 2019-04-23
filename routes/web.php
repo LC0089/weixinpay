@@ -42,6 +42,7 @@ Route::get('success', 'Order\OrderController@success');
 Route::get('test/{order_id?}','Weixin\WxPayController@test');           //支付
 Route::any('notify','Weixin\WxPayController@notify');       //微信支付回调地址
 Route::any('jssdk','Weixin\JssdkController@jssdk');
+Route::any('getImg','Weixin\JssdkController@getImg');
 
 Auth::routes();
 

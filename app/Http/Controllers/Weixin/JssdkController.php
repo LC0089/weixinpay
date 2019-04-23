@@ -10,9 +10,7 @@ class JssdkController extends Controller
     //
 
     public function jssdk(){
-//        print_r($_SERVER);die;
         $jsapi_ticket = JsapiTicket();
-//        print_r($jsapi_ticket);die;
         $nonceStr = Str::random(10);
         $timestamp = time();
         $current_cul = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -31,6 +29,9 @@ class JssdkController extends Controller
             'config'=>$js_config
         ];
         return view('weixin.jssdk',$data);
+    }
 
+    public function getImg(){
+        print_r($_GET);
     }
 }
