@@ -23,11 +23,12 @@ class JssdkController extends Controller
             'timestamp'=>$timestamp,
             'nonceStr'=>$nonceStr,  //随机字符串
             'signature'=>$sign,  //签名
-            'jsApiList'=>['chooseImage'],  //要使用的表功能
+//            'jsApiList'=>['chooseImage'],  //要使用的表功能
         ];
         $data = [
             'config'=>$js_config
         ];
+//        print_r($data);die;
         return view('weixin.jssdk',$data);
     }
 
