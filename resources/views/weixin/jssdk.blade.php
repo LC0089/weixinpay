@@ -69,7 +69,7 @@
             wx.updateAppMessageShareData({
                 title: '秀儿', // 分享标题
                 desc: '猜一猜', // 分享描述
-                link: "{{$url}}}", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                link: "https://gj.164133.com/", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                 imgUrl: '2', // 分享图标
                 success: function (msg) {
                     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
